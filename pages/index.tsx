@@ -10,17 +10,17 @@ const Home: NextPage = () => {
           height: "100vh",
           width: "100vw",
           background:
-            'linear-gradient(to top, rgba(255,255,255,0.5), rgba(0,0,0,0.5)), url("images/forest.jpg") ',
+            'linear-gradient(to top, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url("images/forest.jpg") ',
           backgroundSize: "cover",
           zIndex: -1,
           position: "fixed",
         }}
       ></div>
       <div className="flex justify-center w-screen h-screen content-center items-center">
-        <h1 className="text-white">
+        <h1 className="text-white text-lg">
           開發 功太郎
           <br className="" />
-          (Kaihotsu Kotaro)
+          <span className="text-sm"> Kaihotsu Kotaro</span>
         </h1>
       </div>
       <header className="my-20">header</header>
