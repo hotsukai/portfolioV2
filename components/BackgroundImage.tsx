@@ -17,7 +17,7 @@ const BackGroundImage = () => {
       {images.map((image, i) => (
         <div
           style={{
-            height: "100%",
+            height: "95%",
             width: "95%",
             backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url("${
               images[i]
