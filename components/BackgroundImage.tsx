@@ -17,7 +17,6 @@ const BackGroundImage = () => {
       {images.map((image, i) => (
         <div
           style={{
-            height: "95%",
             width: "95%",
             backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url("${images[i]}") `,
             backgroundSize: "cover",
@@ -25,7 +24,7 @@ const BackGroundImage = () => {
             transition: "opacity 1s 0s linear",
           }}
           key={image}
-          className="fixed -z-50 overflow-hidden"
+          className="h-full fixed -z-50 overflow-hidden"
         />
       ))}
     </>
