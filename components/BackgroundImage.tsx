@@ -19,15 +19,13 @@ const BackGroundImage = () => {
           style={{
             height: "95%",
             width: "95%",
-            backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url("${
-              images[i]
-            }") `,
+            backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url("${images[i]}") `,
             backgroundSize: "cover",
             opacity: i === activeImageIndex ? 1 : 0,
             zIndex: -1,
             position: "fixed",
             transition: "opacity 1s 0s linear",
-            overflow:"hidden"
+            overflow: "hidden",
           }}
           key={image}
         />
