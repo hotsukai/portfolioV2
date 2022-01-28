@@ -1,27 +1,18 @@
 import { FC } from "react";
-
-const Section1Page: FC = () => {
+import classNames from "classnames";
+type Props = {
+  className?: string;
+};
+const Section1Page: FC<Props> = ({ className, children }) => {
   return (
-    <>
-      <h1>Products</h1>
-      <div className="flex">
-        <div>横並び</div>
-        <div>横並び</div>
-        <div>横並び</div>
-        <div>横並び</div>
-        <div>横並び</div>
-        <div>横並び</div>
-        <div>横並び</div>
-        <div>横並び</div>
-        <div>横並び</div>
-        <div>横並び</div>
-        <div>横並び</div>
-        <div>横並び</div>
-        <div>横並び</div>
-        <div>横並び</div>
-        <div>横並び</div>
-      </div>
-    </>
+    <section
+      className={classNames(
+        "static h h-screen border-2 border-red-500 overflow-y-scroll",
+        className
+      )}
+    >
+      {children}
+    </section>
   );
 };
 

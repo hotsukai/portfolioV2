@@ -22,12 +22,10 @@ const BackGroundImage = () => {
             backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url("${images[i]}") `,
             backgroundSize: "cover",
             opacity: i === activeImageIndex ? 1 : 0,
-            zIndex: -1,
-            position: "fixed",
             transition: "opacity 1s 0s linear",
-            overflow: "hidden",
           }}
           key={image}
+          className="fixed -z-50 overflow-hidden"
         />
       ))}
     </>
