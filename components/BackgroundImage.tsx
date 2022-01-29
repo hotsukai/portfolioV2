@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-
-const images = ["images/forest.jpg", "images/bridge.jpg"];
+import Image from "next/image";
+const images = ["/images/forest.jpg", "/images/bridge.jpg"] as const;
+import classNames from "classnames";
 
 const BackGroundImage = () => {
   const [count, setCount] = useState(0);
@@ -8,25 +9,27 @@ const BackGroundImage = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCount((c) => c + 1);
-    }, 3000);
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <>
+    <div className=" h-full w-full fixed -z-50">
       {images.map((image, i) => (
-        <div
-          style={{
-            backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url("${images[i]}") `,
-            backgroundSize: "cover",
-            opacity: i === activeImageIndex ? 1 : 0,
-            transition: "opacity 1s 0s linear",
-          }}
+        <Image
+          layout="fill"
+          objectFit="cover"
+          priority={i === 0}
+          src={images[i]}
+          alt="背景画像"
           key={image}
-          className="h-full w-full fixed -z-50 overflow-hidden"
+          className={classNames(
+            "overflow-hidden transition-opacity ease-linear duration-2000",
+            i === activeImageIndex ? "opacity-100" : "opacity-0"
+          )}
         />
       ))}
-    </>
+    </div>
   );
 };
 
