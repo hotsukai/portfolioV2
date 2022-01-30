@@ -3,6 +3,7 @@ import Card from "components/Card";
 import Footer from "components/Footer";
 import Header from "components/Header";
 import SectionHeightScreen from "components/Section1Page";
+import { SITE_NAME } from "const";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -10,6 +11,9 @@ import Image from "next/image";
 const Home: NextPage = () => {
   return (
     <>
+      <Head>
+        <title>{SITE_NAME}</title>
+      </Head>
       <main className="snap-y snap-mandatory overflow-y-scroll relative h-screen">
         <BackGroundImage />
         <SectionHeightScreen className="snap-center">
