@@ -4,13 +4,18 @@ import Footer from "components/Footer";
 import Header from "components/Header";
 import SectionHeightScreen from "components/Section1Page";
 import { SITE_NAME } from "const";
-import { career } from "data/career";
+import fetchAboutMe from "infrastructure/repository/aboutme";
 import notionClient from "infrastructure/notion";
 import type { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import { RichText } from "app";
+import RichTextArea from "components/RichText";
 
-const Home: NextPage = () => {
+type Props = {
+  aboutMe: RichText[];
+};
+const Home: NextPage<Props> = ({ aboutMe }) => {
   return (
     <>
       <Head>
@@ -31,13 +36,9 @@ const Home: NextPage = () => {
                 </h1>
               </div>
               <div className="my-20">
-                <p>2018 筑波大学 情報学群 情報メディア創成学類 入学</p>
-                <p>2021 融合知能デザイン研究室 </p>
-                <p>写真を取ることと料理を作ること・食べることが好き．</p>
-                <p>
-                  プロダクトを作ることが好き,
-                  スクラムとフロントエンドに興味がある．
-                </p>
+                {aboutMe.map((am) => (
+                  <RichTextArea richText={am} key={am.body} />
+                ))}
                 <p className="text-lg text-center">Scroll More</p>
                 <span className="material-icons-outlined">expand_more</span>
               </div>
@@ -62,22 +63,22 @@ const Home: NextPage = () => {
           <div className="absolute">
             <Card className="text-white mix-blend-lighten">
               <h2 className="text-lg">Work History</h2>
-              {career.interns.map((intern) => (
+              {/* {career.interns.map((intern) => (
                 <div className="mb-4" key={intern.name}>
                   <h4 dangerouslySetInnerHTML={{ __html: intern.name }} />
                   <p>{intern.season}</p>
                   <p>{intern.description}</p>
                 </div>
-              ))}
+              ))} */}
             </Card>
             <Card>
               <h2 className="text-lg">Education</h2>
-              {career.educations.map((edu) => (
+              {/* {career.educations.map((edu) => (
                 <div className="mb-4" key={edu.name}>
                   <h4 dangerouslySetInnerHTML={{ __html: edu.name }} />
                   <p>{edu.season}</p>
                 </div>
-              ))}
+              ))} */}
             </Card>
           </div>
         </SectionHeightScreen>
@@ -117,14 +118,10 @@ const Home: NextPage = () => {
   );
 };
 
-export const getStaticProps: GetServerSideProps = async (context) => {
-  const pageId = "b8351c12c16e4417bc252a32c98c9967";
-  const response = await notionClient.databases.query({
-    database_id: process.env.NOTON_DB_ID as string,
-  });
-  console.log("res", response);
+export const getStaticProps: GetServerSideProps = async () => {
+  const aboutMe = await fetchAboutMe();
 
-  return { props: { a: "a" } };
+  return { props: { aboutMe } };
 };
 
 export default Home;
