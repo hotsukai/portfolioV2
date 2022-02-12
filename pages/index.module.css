@@ -1,0 +1,22 @@
+.scroll::after {
+  content: "";
+  width: 2px;
+  height: 4rem;
+  display: block;
+  margin: 0 auto;
+  background-color: white;
+  animation: scroll-bar 2s cubic-bezier(0.645, 0.045, 0.355, 1) infinite both;
+}
+@keyframes scroll-bar {
+  0% {
+    transform: translateY(-40px) scaleY(0);
+  }
+
+  50% {
+    transform: translateY(0px) scaleY(1);
+  }
+
+  100% {
+    transform: translateY(100px) scaleY(0.3);
+  }
+}

@@ -5,13 +5,12 @@ import Header from "components/Header";
 import SectionHeightScreen from "components/Section1Page";
 import { SITE_NAME } from "const";
 import fetchAboutMe from "infrastructure/repository/aboutme";
-import notionClient from "infrastructure/notion";
 import type { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { RichText } from "app";
 import RichTextArea from "components/RichText";
-
+import classNames from "classnames";
+import styles from "./index.module.css";
 type Props = {
   aboutMe: RichText[];
 };
@@ -35,13 +34,19 @@ const Home: NextPage<Props> = ({ aboutMe }) => {
                   <span className="text-sm"> Kaihotsu Kotaro</span>
                 </h1>
               </div>
-              <div className="my-20">
+              <div className="my-20 px-1 md:px-4 lg:px-8">
                 {aboutMe.map((am) => (
                   <RichTextArea richText={am} key={am.body} />
                 ))}
-                <p className="text-lg text-center">Scroll More</p>
-                <span className="material-icons-outlined">expand_more</span>
               </div>
+              <p
+                className={classNames(
+                  "text-sm font-light text-center my-10",
+                  styles.scroll
+                )}
+              >
+                SCROLL
+              </p>
             </div>
             <div className="z w-4 bg-white" />
           </div>
