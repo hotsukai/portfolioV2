@@ -24,14 +24,14 @@ const AboutMe: FC<Props> = ({ aboutMe }) => {
               <span className="text-sm"> Kaihotsu Kotaro</span>
             </h1>
           </div>
-          <div className="my-20 px-1 md:px-4 lg:px-8">
+          <div className="mb-20 px-1 md:px-4 lg:px-8">
             {aboutMe.map((am) => (
               <RichTextArea richText={am} key={am.body} />
             ))}
           </div>
           <p
             className={classNames(
-              "text-sm font-light text-center my-10",
+              "text-sm font-light text-center mb-10",
               styles.scroll
             )}
           >
