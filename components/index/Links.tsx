@@ -17,6 +17,7 @@ const LinkWithLogo: FC<LinkWithLogoProps> = ({ imageSrc, title, href }) => (
       <img
         src={imageSrc}
         alt={`${title} logo`}
+        loading="lazy"
         className={classNames(
           styles["icon"],
           "h-6 absolute top-0 bottom-0 left-0 inline-block"

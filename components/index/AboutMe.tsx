@@ -15,7 +15,7 @@ const AboutMe: FC<Props> = ({ aboutMe }) => {
     <SectionHeightScreen className="snap-center">
       <Header />
       <div className="flex justify-between text-white relative">
-        <div className="w-4 bg-white" />
+        <div className="w-4 bg-white" role="presentation" />
         <div className="z-0 grow">
           <div className="flex justify-center h-screen content-center items-center">
             <h1 className="text-white text-lg">
@@ -38,7 +38,7 @@ const AboutMe: FC<Props> = ({ aboutMe }) => {
             SCROLL
           </p>
         </div>
-        <div className="z w-4 bg-white" />
+        <div className="z w-4 bg-white" role="presentation" />
       </div>
       <Footer />
     </SectionHeightScreen>
