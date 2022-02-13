@@ -25,8 +25,8 @@ const Home: NextPage<Props> = ({ aboutMe }) => {
       <main className="snap-y snap-mandatory overflow-y-scroll relative h-screen">
         <BackGroundImage />
         <AboutMe aboutMe={aboutMe} />
-        <Products />
         <Links />
+        <Products />
       </main>
     </>
   );

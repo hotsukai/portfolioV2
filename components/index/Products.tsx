@@ -8,10 +8,9 @@ const Products: FC<Props> = ({}) => {
     <SectionHeightScreen className="snap-center flex justify-between">
       <div className="bg-white w-2/12 mr-4 md:mr-8" role="presentation" />
       <div className="bg-white w-full p-10">
-        <h2>Product</h2>
+        <h2 className="text-lg">Products</h2>
         <Card>
-          <h3>名前</h3>
-          <div>説明説明説明説明説明説明説明説明</div>
+          <p>Coming Soon 🚧</p>
         </Card>
       </div>
     </SectionHeightScreen>
