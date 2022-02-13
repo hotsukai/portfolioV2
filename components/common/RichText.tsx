@@ -6,7 +6,7 @@ const RichTextArea: FC<Props> = ({ richText }) => {
   if (richText.type === "p") return <p>{richText.body}</p>;
   if (richText.type === "p-mb") return <p className="mb-4">{richText.body}</p>;
   if (richText.type === "h1")
-    return <h1 className="text-xxl">{richText.body}</h1>;
+    return <h1 className="text-xl font-bold">{richText.body}</h1>;
   if (richText.type === "h2")
     return <h2 className="text-xl">{richText.body}</h2>;
   if (richText.type === "h3")

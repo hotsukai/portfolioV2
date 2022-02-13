@@ -22,7 +22,7 @@ const Home: NextPage<Props> = ({ aboutMe }) => {
       <Head>
         <title>{SITE_NAME}</title>
       </Head>
-      <main className="snap-y snap-mandatory overflow-y-scroll relative h-screen">
+      <main className="overflow-y-scroll relative h-screen snap-y snap-mandatory">
         <BackGroundImage />
         <AboutMe aboutMe={aboutMe} />
         <Links />

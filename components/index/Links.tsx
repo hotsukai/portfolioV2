@@ -31,9 +31,9 @@ const LinkWithLogo: FC<LinkWithLogoProps> = ({ imageSrc, title, href }) => (
 type Props = {};
 const Links: FC<Props> = ({}) => {
   return (
-    <SectionHeightScreen className="snap-center flex justify-between">
-      <div className="bg-white w-full p-10">
-        <h2 className="text-xl mb-4">Links</h2>
+    <SectionHeightScreen className="flex justify-between snap-center">
+      <div className="p-10 w-full bg-white">
+        <h2 className="mb-4 text-xl">Links</h2>
         <LinkWithLogo
           title="GitHub"
           href="https://github.com/hotsukai"
@@ -66,7 +66,7 @@ const Links: FC<Props> = ({}) => {
           imageSrc="/images/mail.png"
         />
       </div>
-      <div className="bg-white w-5/12 ml-8" role="presentation" />
+      <div className="ml-8 w-5/12 bg-white" role="presentation" />
     </SectionHeightScreen>
   );
 };

@@ -5,9 +5,9 @@ import SectionHeightScreen from "./Section1Page";
 type Props = {};
 const Products: FC<Props> = ({}) => {
   return (
-    <SectionHeightScreen className="snap-center flex justify-between">
-      <div className="bg-white w-2/12 mr-4 md:mr-8" role="presentation" />
-      <div className="bg-white w-full p-10">
+    <SectionHeightScreen className="flex justify-between snap-center">
+      <div className="mr-4 w-2/12 bg-white md:mr-8" role="presentation" />
+      <div className="p-10 w-full bg-white">
         <h2 className="text-lg">Products</h2>
         <Card>
           <p>Coming Soon 🚧</p>

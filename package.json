@@ -5,7 +5,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix"
   },
   "dependencies": {
     "@notionhq/client": "^0.4.13",
@@ -21,6 +22,7 @@
     "autoprefixer": "^10.4.2",
     "eslint": "7",
     "eslint-config-next": "12.0.4",
+    "eslint-plugin-tailwindcss": "^3.4.4",
     "postcss": "^8.4.5",
     "prettier": "^2.5.0",
     "tailwindcss": "^3.0.17",
