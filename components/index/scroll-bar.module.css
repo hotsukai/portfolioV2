@@ -9,7 +9,7 @@
 }
 @keyframes scroll-bar {
   0% {
-    transform: translateY(-40px) scaleY(0);
+    transform: translateY(-35px) scaleY(0);
   }
 
   50% {

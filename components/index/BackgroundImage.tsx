@@ -14,7 +14,7 @@ const BackGroundImage = () => {
   }, []);
 
   return (
-    <div className="fixed -z-50 w-full h-full">
+    <div className="fixed -z-50 w-full h-full bg-slate-600">
       {images.map((image, i) => (
         <Image
           layout="fill"
