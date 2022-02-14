@@ -1,6 +1,8 @@
-import Card from "components/common/Card";
 import { FC } from "react";
+
 import SectionHeightScreen from "./Section1Page";
+
+import Card from "components/common/Card";
 
 type Props = {};
 const Products: FC<Props> = ({}) => {

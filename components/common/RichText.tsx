@@ -1,5 +1,6 @@
-import { RichText } from "app";
 import { FC } from "react";
+
+import { RichText } from "app";
 
 type Props = { richText: RichText };
 const RichTextArea: FC<Props> = ({ richText }) => {

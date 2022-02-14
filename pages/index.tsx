@@ -1,18 +1,14 @@
-import BackGroundImage from "components/index/BackgroundImage";
-import Card from "components/common/Card";
-import Footer from "components/common/Footer";
-import Header from "components/common/Header";
-import SectionHeightScreen from "components/index/Section1Page";
-import { SITE_NAME } from "const";
-import fetchAboutMe from "infrastructure/repository/aboutme";
 import type { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
+
 import { RichText } from "app";
-import RichTextArea from "components/common/RichText";
-import classNames from "classnames";
 import AboutMe from "components/index/AboutMe";
-import Products from "components/index/Products";
+import BackGroundImage from "components/index/BackgroundImage";
 import Links from "components/index/Links";
+import Products from "components/index/Products";
+import { SITE_NAME } from "const";
+import fetchAboutMe from "infrastructure/repository/aboutme";
+
 type Props = {
   aboutMe: RichText[];
 };

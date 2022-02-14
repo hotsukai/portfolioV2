@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import Image from "next/image";
-const images = ["/images/forest.jpg", "/images/bridge.jpg"] as const;
 import classNames from "classnames";
+import Image from "next/image";
+import { useState, useEffect } from "react";
+const images = ["/images/forest.jpg", "/images/bridge.jpg"] as const;
 
 const BackGroundImage = () => {
   const [count, setCount] = useState(0);

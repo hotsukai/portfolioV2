@@ -1,4 +1,27 @@
 {
   "extends": ["next/core-web-vitals", "plugin:tailwindcss/recommended"],
-  "plugins": ["tailwindcss"]
+  "plugins": ["tailwindcss", "unused-imports"],
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc"
+        },
+        "newlines-between": "always"
+      }
+    ],
+    "import/first": "error",
+    "no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ]
+  }
 }

@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import Card from "components/common/Card";
-import { FC } from "react";
-import SectionHeightScreen from "./Section1Page";
-import Image from "next/image";
-import styles from "./links.module.css";
 import classNames from "classnames";
+import { FC } from "react";
+
+import SectionHeightScreen from "./Section1Page";
+import styles from "./links.module.css";
+
 
 type LinkWithLogoProps = {
   imageSrc: string;

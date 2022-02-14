@@ -1,5 +1,5 @@
-import { FC } from "react";
 import classNames from "classnames";
+import { FC } from "react";
 
 type Props = { className?: string };
 const Card: FC<Props> = ({ className, children }) => {

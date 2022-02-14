@@ -1,11 +1,13 @@
-import { RichText } from "app";
 import classNames from "classnames";
+import { FC } from "react";
+
+import SectionHeightScreen from "./Section1Page";
+import styles from "./scroll-bar.module.css";
+
+import { RichText } from "app";
 import Footer from "components/common/Footer";
 import Header from "components/common/Header";
 import RichTextArea from "components/common/RichText";
-import { FC } from "react";
-import SectionHeightScreen from "./Section1Page";
-import styles from "./scroll-bar.module.css";
 
 type Props = {
   aboutMe: RichText[];
@@ -20,7 +22,7 @@ const AboutMe: FC<Props> = ({ aboutMe }) => {
           <div className="flex justify-center content-center items-center h-screen">
             <h1 className="text-lg text-white">
               開發 功太郎
-              <br className="" />
+              <br />
               <span className="text-sm"> Kaihotsu Kotaro</span>
             </h1>
           </div>
