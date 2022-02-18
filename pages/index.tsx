@@ -7,7 +7,8 @@ import BackGroundImage from "components/index/BackgroundImage";
 import Links from "components/index/Links";
 import Products from "components/index/Products";
 import { SITE_NAME } from "const";
-import fetchAboutMe from "infrastructure/repository/aboutme";
+import fetchAboutMe from "repository/aboutme";
+import fetchArticleOGPInfo, { fetchAllArticle } from "repository/fetchArticle";
 
 type Props = {
   aboutMe: RichText[];
@@ -30,8 +31,13 @@ const Home: NextPage<Props> = ({ aboutMe }) => {
 
 export const getStaticProps: GetServerSideProps = async () => {
   const aboutMe = await fetchAboutMe();
+  // const articles = await fetchArticleOGPInfo(
+  //   "https://zenn.dev/hotsukai/articles/enpit2021_memo"
+  // );
 
-  return { props: { aboutMe } };
+  const articlesMetaInfo = await fetchAllArticle();
+
+  return { props: { aboutMe, articlesMetaInfo } };
 };
 
 export default Home;
