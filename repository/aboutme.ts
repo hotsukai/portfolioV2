@@ -1,6 +1,6 @@
+import { RichText } from "app";
 import notionClient, { ABOUTME_PAGE_ID, parseNotionBlockChildrenResponseToRichText } from "infrastructure/notion";
 
-import { RichText } from "app";
 
 
 const fetchAboutMe = async (): Promise<RichText[]> => {

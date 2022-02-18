@@ -1,5 +1,6 @@
 import { Client, LogLevel } from "@notionhq/client"
 import { ListBlockChildrenResponse } from "@notionhq/client/build/src/api-endpoints"
+
 import { RichText } from "app"
 
 // Initializing a client
