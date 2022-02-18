@@ -5,6 +5,8 @@ import { FC } from "react";
 import SectionHeightScreen from "./Section1Page";
 import styles from "./links.module.css";
 
+import { H2, H3 } from "components/common/Headings";
+
 type LinkWithLogoProps = {
   imageSrc: string;
   title: string;
@@ -37,9 +39,9 @@ const Links: FC<Props> = ({}) => {
   return (
     <SectionHeightScreen className="flex justify-between snap-center">
       <div className="p-10 w-full bg-white">
-        <h2 className="mb-4 text-xl">Links</h2>
-        <div className="my-4">
-          <h3 className="mb-2 text-lg">Tech</h3>
+        <H2>Links</H2>
+        <div className="my-6">
+          <H3>Tech</H3>
           <LinkWithLogo
             title="Twitter"
             href="https://twitter.com/hotsukai"
@@ -61,15 +63,15 @@ const Links: FC<Props> = ({}) => {
             imageSrc="https://unpkg.com/simple-icons@6.10.0/icons/qiita.svg"
           />
         </div>
-        <div className="my-4">
-          <h3 className="mb-2 text-lg">Photos</h3>
+        <div className="my-6">
+          <H3>Photos</H3>
           <LinkWithLogo
             title="Instagram"
             href="https://www.instagram.com/hotsukai_pic/"
             imageSrc="/images/instagram.png"
           />
         </div>
-        <div className="my-4">
+        <div className="my-6">
           <h3 className="mb-2 text-lg">Career</h3>
           <LinkWithLogo
             title="Wantedly"
