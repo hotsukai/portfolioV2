@@ -1,7 +1,7 @@
 import { Client, LogLevel } from "@notionhq/client"
 import { ListBlockChildrenResponse, QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints"
 
-import { RichText } from "app"
+import { RichLine } from "app"
 
 // Initializing a client
 const notionClient = new Client({
@@ -19,8 +19,10 @@ export default notionClient
 /**
  * ListBlockChildrenResponseをRichTextにパースする
  */
-const parseNotionBlockChildrenResponseToRichText = (response: ListBlockChildrenResponse): RichText[] => {
-  const unsafeRichTexts: Array<RichText | undefined> = response.results.map((result, index) => {
+const parseNotionBlockChildrenResponseToRichText = (response: ListBlockChildrenResponse): RichLine[] => {
+  const unsafeRichTexts: Array<RichLine | undefined> = response.results.map((result, index) => {
+    console.log(JSON.stringify(result, null, 2));
+
     if (!('type' in result)) return
     const resultType = result.type
 
@@ -65,13 +67,6 @@ const parseNotionBlockChildrenResponseToRichText = (response: ListBlockChildrenR
 
 const fetchSinglePage = async (block_id: string): Promise<ListBlockChildrenResponse> => notionClient.blocks.children.list({ block_id })
 
-export const fetchAllFromDB = async (database_id: string): Promise<QueryDatabaseResponse> => notionClient.databases.query({
-  database_id, sorts: [
-    {
-      property: 'createdAt',
-      direction: "descending"
-    }]
-})
 
 export const getNotionPage = async (block_id: string) => {
   const res = await fetchSinglePage(block_id)
@@ -79,23 +74,43 @@ export const getNotionPage = async (block_id: string) => {
 }
 
 type Row = {
-  title: string
-  url?: string
-  tag?: string
+  values: {
+    [key: string]: string | string[]
+  }
+  id: string
 }
-export const parseNotionQueryDBResponseToArrOfDict = (response: QueryDatabaseResponse): Row[] => {
+const parseNotionQueryDBResponseToArrOfDict = (response: QueryDatabaseResponse): Row[] => {
   const rows: Row[] = []
-  response.results.forEach(col => {
-    if (!("properties" in col)) return undefined
+  response.results.forEach(row => {
+    if (!("properties" in row)) return undefined
 
-    const formattedRow: Row = {} as Row
-    Object.keys(col.properties).forEach(key => {
-      const row = col.properties[key]
-      if (row.type === 'title' && row.title) formattedRow['title'] = row.title[0].plain_text
-      if (row.type === 'url' && row.url) formattedRow['url'] = row.url
-      if (row.type === 'select' && row.select) formattedRow['tag'] = row.select.name
+    const formattedRow: Row = { id: row.id, values: {} } as Row
+    Object.keys(row.properties).forEach(key => {
+      const col = row.properties[key]
+      if (col.type === 'title' && col.title) formattedRow.values[key] = col.title[0].plain_text
+      if (col.type === 'url' && col.url) formattedRow.values[key] = col.url
+      if (col.type === 'select' && col.select) formattedRow.values[key] = col.select.name
+      if (col.type === 'multi_select') formattedRow.values[key] = col.multi_select.map(item => item.name)
+      if (col.type === 'rich_text') formattedRow.values[key] = col.rich_text.reduce((prev, item) => prev + item.plain_text, '')
     })
+
     rows.push(formattedRow)
+
   })
+
   return rows
+}
+
+const fetchAllFromDB = async (database_id: string): Promise<QueryDatabaseResponse> => notionClient.databases.query({
+  database_id, sorts: [
+    {
+      property: 'createdAt',
+      direction: "descending"
+    }]
+})
+
+
+export const getRowsFromNotionDB = async (database_id: string): Promise<Row[]> => {
+  const res = await fetchAllFromDB(database_id)
+  return parseNotionQueryDBResponseToArrOfDict(res)
 }

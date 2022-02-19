@@ -2,7 +2,7 @@ import { JSDOM } from 'jsdom';
 import ky from 'ky';
 
 import { ArticleMetaInfo, Dictionary } from 'app';
-import { ARTICLE_DB_ID, fetchAllFromDB, parseNotionQueryDBResponseToArrOfDict } from 'infrastructure/notion';
+import { ARTICLE_DB_ID, getRowsFromNotionDB } from 'infrastructure/notion';
 
 const jsdom = new JSDOM();
 const Parser = new jsdom.window.DOMParser();
@@ -27,10 +27,9 @@ const fetchArticleOGPInfo = async (url: string): Promise<Dictionary> => {
 
 
 export const fetchAllArticle = async () => {
-  const res = await fetchAllFromDB(ARTICLE_DB_ID)
-  const tasks = parseNotionQueryDBResponseToArrOfDict(res)
-    .filter((row) => row.url && row.url.length !== 0)
-    .map(row => fetchArticleOGPInfo(row.url as string))
+  const tasks = (await getRowsFromNotionDB(ARTICLE_DB_ID))
+    .filter((row) => row.values.url && row.values.url.length !== 0)
+    .map(row => fetchArticleOGPInfo(row.values.url as string))
   return await Promise.all(tasks) as ArticleMetaInfo[]
 
 }

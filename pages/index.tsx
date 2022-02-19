@@ -1,17 +1,18 @@
 import type { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
 
-import { ArticleMetaInfo, RichText } from "app";
+import { ArticleMetaInfo, RichLine } from "app";
 import AboutMe from "components/index/AboutMe";
 import BackGroundImage from "components/index/BackgroundImage";
 import Links from "components/index/Links";
 import Works from "components/index/Works";
 import { SITE_NAME } from "const";
 import fetchAboutMe from "repository/aboutme";
-import { fetchAllArticle } from "repository/fetchArticle";
+import { fetchAllArticle } from "repository/article";
+import fetchProducts from "repository/product";
 
 type Props = {
-  aboutMe: RichText[];
+  aboutMe: RichLine[];
   articlesMetaInfo: ArticleMetaInfo[];
 };
 const Home: NextPage<Props> = ({ aboutMe, articlesMetaInfo }) => {
@@ -37,7 +38,7 @@ export const getStaticProps: GetServerSideProps = async () => {
   // );
 
   const articlesMetaInfo = await fetchAllArticle();
-  console.log(JSON.stringify(articlesMetaInfo, null, 2));
+  fetchProducts();
 
   return { props: { aboutMe, articlesMetaInfo } };
 };

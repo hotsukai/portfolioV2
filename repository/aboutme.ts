@@ -1,8 +1,8 @@
-import { RichText } from "app";
+import { RichLine } from "app";
 import { ABOUTME_PAGE_ID, getNotionPage } from "infrastructure/notion";
 
 
-const fetchAboutMe = (): Promise<RichText[]> => {
+const fetchAboutMe = (): Promise<RichLine[]> => {
   return getNotionPage(ABOUTME_PAGE_ID)
 
 }

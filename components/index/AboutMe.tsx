@@ -4,13 +4,13 @@ import { FC } from "react";
 import SectionHeightScreen from "./Section1Page";
 import styles from "./scroll-bar.module.css";
 
-import { RichText } from "app";
+import { RichLine } from "app";
 import Footer from "components/common/Footer";
 import Header from "components/common/Header";
 import RichTextArea from "components/common/RichText";
 
 type Props = {
-  aboutMe: RichText[];
+  aboutMe: RichLine[];
 };
 const AboutMe: FC<Props> = ({ aboutMe }) => {
   return (

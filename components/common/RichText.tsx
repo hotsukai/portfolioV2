@@ -2,9 +2,9 @@ import { FC } from "react";
 
 import { H1, H2, H3 } from "./Headings";
 
-import { RichText } from "app";
+import { RichLine } from "app";
 
-type Props = { richText: RichText };
+type Props = { richText: RichLine };
 const RichTextArea: FC<Props> = ({ richText }) => {
   if (richText.type === "p") return <p>{richText.body}</p>;
   if (richText.type === "p-mb") return <p className="mb-4">{richText.body}</p>;
