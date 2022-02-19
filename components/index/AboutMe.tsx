@@ -7,7 +7,7 @@ import styles from "./scroll-bar.module.css";
 import { RichLine } from "app";
 import Footer from "components/common/Footer";
 import Header from "components/common/Header";
-import RichTextArea from "components/common/RichText";
+import RichLineElem from "components/common/RichText";
 
 type Props = {
   aboutMe: RichLine[];
@@ -27,8 +27,8 @@ const AboutMe: FC<Props> = ({ aboutMe }) => {
             </h1>
           </div>
           <div className="px-1 mb-20 md:px-4 lg:px-8">
-            {aboutMe.map((am) => (
-              <RichTextArea richText={am} key={am.body} />
+            {aboutMe.map((am, i) => (
+              <RichLineElem richLine={am} key={i} />
             ))}
           </div>
           <p

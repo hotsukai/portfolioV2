@@ -1,7 +1,8 @@
 import { Client, LogLevel } from "@notionhq/client"
 import { ListBlockChildrenResponse, QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints"
 
-import { RichLine } from "app"
+import { Dictionary, RichLine, RichText } from "app"
+import { deleteUndefined, ExtractHasProp_Type } from "utils"
 
 // Initializing a client
 const notionClient = new Client({
@@ -19,58 +20,103 @@ export default notionClient
 /**
  * ListBlockChildrenResponseをRichTextにパースする
  */
-const parseNotionBlockChildrenResponseToRichText = (response: ListBlockChildrenResponse): RichLine[] => {
-  const unsafeRichTexts: Array<RichLine | undefined> = response.results.map((result, index) => {
-    console.log(JSON.stringify(result, null, 2));
-
+const parseNotionBlockChildrenResponseToRichBlock = (response: ListBlockChildrenResponse): RichLine[] => {
+  const unsafeRichLines: Array<RichLine | undefined> = response.results.map((result) => {
     if (!('type' in result)) return
-    const resultType = result.type
-
-    if (resultType === 'paragraph' && result.paragraph.text.length > 0) {
-      const body = result.paragraph.text.reduce((prev, curr) => prev + curr.plain_text, '')
-      const nextIdx = index + 1
-      const nextResult = response.results.length > nextIdx && response.results[nextIdx]
-      const isNextLineEmpty = (nextResult && 'type' in nextResult && nextResult.type === 'paragraph' && nextResult.paragraph.text.length === 0)
-      return {
-        type: isNextLineEmpty ? 'p-mb' : 'p',
-        body
-      }
-    }
-    if (resultType === 'paragraph' && result.paragraph.text.length === 0) return
-    if (resultType === 'heading_1') {
-      const body = result.heading_1.text.reduce((prev, curr) => prev + curr.plain_text, '')
-      return {
-        type: 'h1',
-        body
-      }
-    }
-    if (resultType === 'heading_2') {
-      const body = result.heading_2.text.reduce((prev, curr) => prev + curr.plain_text, '')
-      return {
-        type: 'h2',
-        body
-      }
-    }
-    if (resultType === 'heading_3') {
-      const body = result.heading_3.text.reduce((prev, curr) => prev + curr.plain_text, '')
-      return {
-        type: 'h3',
-        body
-      }
-    }
-    return
+    return parseNotionBlocksToRichBlocks(result)
   })
+  return deleteUndefined<RichLine | undefined>(unsafeRichLines)
 
-  // filterでUndefinedを除けていることをTSコンパイラに伝えるために必要
-  return unsafeRichTexts.filter((urt): urt is Exclude<typeof urt, undefined> => urt?.body !== undefined)
 }
 
-const fetchSinglePage = async (block_id: string): Promise<ListBlockChildrenResponse> => notionClient.blocks.children.list({ block_id })
+type NotionBlockObjectResponseUnion = ListBlockChildrenResponse['results'][number]
+type NotionBlockObjectRequest = ExtractHasProp_Type<NotionBlockObjectResponseUnion, string>
+const parseNotionBlocksToRichBlocks = (block: NotionBlockObjectRequest): RichLine | undefined => {
+  const resultType = block.type
+
+  if (resultType === 'paragraph' && block.paragraph.text.length > 0) {
+    const body = parseNotionRichTextsItemToRichTexts(block.paragraph.text)
+    return {
+      type: 'p',
+      body
+    }
+  }
+  if (resultType === 'paragraph' && block.paragraph.text.length === 0) return {
+    type: 'emptyLine'
+  }
+  if (resultType === 'heading_1') {
+    const body = parseNotionRichTextsItemToRichTexts(block.heading_1.text)
+    return {
+      type: 'h1',
+      body
+    }
+  }
+  if (resultType === 'heading_2') {
+    const body = parseNotionRichTextsItemToRichTexts(block.heading_2.text)
+    return {
+      type: 'h2',
+      body
+    }
+  }
+  if (resultType === 'heading_3') {
+    const body = parseNotionRichTextsItemToRichTexts(block.heading_3.text)
+    return {
+      type: 'h3',
+      body
+    }
+  }
+  if (resultType === 'bulleted_list_item') {
+    const body = parseNotionRichTextsItemToRichTexts(block.bulleted_list_item.text)
+    return {
+      type: 'li',
+      body
+    }
+  }
+  return
+}
+
+const parseNotionRichTextsItemToRichTexts = (notionRichTexts: ExtractHasProp_Type<NotionBlockObjectRequest, 'paragraph'>['paragraph']['text']): RichText[] => {
+  const unsafes: (RichText | undefined)[] = notionRichTexts.map((text) => {
+    if (text.href === null) return { type: 'normal', body: text.plain_text }
+    if (text.href !== null) return { type: 'a', body: text.plain_text, href: text.href }
+  })
+  return deleteUndefined<(RichText | undefined)>(unsafes)
+}
 
 
-export const getNotionPage = async (block_id: string) => {
-  const res = await fetchSinglePage(block_id)
-  return parseNotionBlockChildrenResponseToRichText(res)
+export type GetNotionPageOutput<T> = {
+  content: RichLine[]
+  title: string
+  coverImage: string | null;
+} & T
+/**
+ * Notion のページを取得し整形して返す
+ * @param block_id 
+ * @returns 
+ */
+export const getNotionPage = async <T>(block_id: string): Promise<GetNotionPageOutput<T>> => {
+  const [body, meta] = await Promise.all([notionClient.blocks.children.list({ block_id }), notionClient.pages.retrieve({ page_id: block_id })])
+  if ('properties' in meta) {
+    const coverImage = (meta.cover?.type === 'external' ? meta.cover.external.url : meta.cover?.file.url) ?? null
+    const title = ('type' in meta.properties && meta.properties.title.type === 'title' && meta.properties.title.title[0].plain_text) || ''
+
+    const formattedRow: Dictionary = {} as Dictionary
+    Object.keys(meta.properties).forEach(key => {
+      const col = meta.properties[key]
+      if (col.type === 'title' && col.title) formattedRow[key] = col.title[0].plain_text
+      if (col.type === 'url' && col.url) formattedRow[key] = col.url
+      if (col.type === 'select' && col.select) formattedRow[key] = col.select.name
+      if (col.type === 'multi_select') formattedRow[key] = col.multi_select.map(item => item.name)
+      if (col.type === 'rich_text') formattedRow[key] = col.rich_text.reduce((prev, item) => prev + item.plain_text, '')
+    })
+
+    return {
+      title, coverImage, content: parseNotionBlockChildrenResponseToRichBlock(body),
+      ...formattedRow as unknown as T
+    }
+  }
+  throw new Error(`page: ${block_id} is not valid`);
+
 }
 
 type Row = {
@@ -79,6 +125,12 @@ type Row = {
   }
   id: string
 }
+
+/**
+ * NotionDBのレスポンスを整形する
+ * @param response 
+ * @returns 
+ */
 const parseNotionQueryDBResponseToArrOfDict = (response: QueryDatabaseResponse): Row[] => {
   const rows: Row[] = []
   response.results.forEach(row => {
@@ -95,12 +147,16 @@ const parseNotionQueryDBResponseToArrOfDict = (response: QueryDatabaseResponse):
     })
 
     rows.push(formattedRow)
-
   })
 
   return rows
 }
 
+/**
+ * Notion DBを叩く
+ * @param database_id 
+ * @returns 
+ */
 const fetchAllFromDB = async (database_id: string): Promise<QueryDatabaseResponse> => notionClient.databases.query({
   database_id, sorts: [
     {
@@ -110,6 +166,11 @@ const fetchAllFromDB = async (database_id: string): Promise<QueryDatabaseRespons
 })
 
 
+/**
+ * Notion DBを叩き結果を整形して返す
+ * @param database_id 
+ * @returns 
+ */
 export const getRowsFromNotionDB = async (database_id: string): Promise<Row[]> => {
   const res = await fetchAllFromDB(database_id)
   return parseNotionQueryDBResponseToArrOfDict(res)

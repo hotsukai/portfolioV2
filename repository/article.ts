@@ -26,7 +26,7 @@ const fetchArticleOGPInfo = async (url: string): Promise<Dictionary> => {
 }
 
 
-export const fetchAllArticle = async () => {
+export const fetchAllArticle = async (): Promise<ArticleMetaInfo[]> => {
   const tasks = (await getRowsFromNotionDB(ARTICLE_DB_ID))
     .filter((row) => row.values.url && row.values.url.length !== 0)
     .map(row => fetchArticleOGPInfo(row.values.url as string))

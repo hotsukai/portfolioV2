@@ -1,13 +1,19 @@
 export type RichLine = {
+  body: RichText[]
+  type: 'p' | 'h1' | 'h2' | 'h3' | 'li'
+} | {
+  type: 'emptyLine' | 'divider'
+}
+export type RichText = {
+  type: 'normal'
   body: string
-  type: 'p' | 'p-mb' | 'h1' | 'h2' | 'h3'
 } | {
   type: 'a'
   body: string
   href: string
 }
 
-export type Dictionary = { [key: string]: string }
+export type Dictionary = { [key: string]: string | string[] }
 
 export type ArticleMetaInfo = {
   url: string
@@ -18,8 +24,10 @@ export type ArticleMetaInfo = {
 
 export type Product = {
   title: string
+  coverImage: string | null
   season: string
-  image: string
-  url: string
-  description: RichLine[]
+  content: RichLine[]
+  technologyStack: string[]
+  link: string | null
+  GitHub: string | null
 }

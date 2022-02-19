@@ -3,13 +3,15 @@ import { FC } from "react";
 
 import SectionHeightScreen from "./Section1Page";
 
-import { ArticleMetaInfo } from "app";
+import { ArticleMetaInfo, Product } from "app";
 import { H2, H3 } from "components/common/Headings";
+import RichLineElem from "components/common/RichText";
 
 type Props = {
   articlesMetaInfo: ArticleMetaInfo[];
+  products: Product[];
 };
-const Products: FC<Props> = ({ articlesMetaInfo }) => {
+const Products: FC<Props> = ({ articlesMetaInfo, products }) => {
   return (
     <SectionHeightScreen className="flex justify-between snap-center">
       <div className="ml-8 w-full bg-white" role="presentation" />
@@ -17,7 +19,28 @@ const Products: FC<Props> = ({ articlesMetaInfo }) => {
         <H2 className="text-xl">Works</H2>
         <div className="my-6">
           <H3 className="text-lg">Products</H3>
-          <p>Coming Soon 🚧</p>
+          {products.map((product) => (
+            <div key={product.title}>
+              {product.coverImage && (
+                <Image
+                  src={product.coverImage}
+                  alt={product.title}
+                  width={400}
+                  height={240}
+                  className="absolute top-0 w-96"
+                  objectFit="contain"
+                />
+              )}
+              <p>{product.title}</p>
+              <p>{product.season}</p>
+              <p>{product.technologyStack}</p>
+              <p>{product.GitHub}</p>
+              <p>{product.link}</p>
+              {product.content.map((line, map) => (
+                <RichLineElem richLine={line} key={map} />
+              ))}
+            </div>
+          ))}
         </div>
         <div className="my-6">
           <H3 className="text-lg">Articles</H3>
