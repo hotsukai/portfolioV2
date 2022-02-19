@@ -1,19 +1,20 @@
 import type { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
 
-import { RichText } from "app";
+import { ArticleMetaInfo, RichText } from "app";
 import AboutMe from "components/index/AboutMe";
 import BackGroundImage from "components/index/BackgroundImage";
 import Links from "components/index/Links";
-import Products from "components/index/Products";
+import Works from "components/index/Works";
 import { SITE_NAME } from "const";
 import fetchAboutMe from "repository/aboutme";
-import fetchArticleOGPInfo, { fetchAllArticle } from "repository/fetchArticle";
+import { fetchAllArticle } from "repository/fetchArticle";
 
 type Props = {
   aboutMe: RichText[];
+  articlesMetaInfo: ArticleMetaInfo[];
 };
-const Home: NextPage<Props> = ({ aboutMe }) => {
+const Home: NextPage<Props> = ({ aboutMe, articlesMetaInfo }) => {
   return (
     <>
       <Head>
@@ -23,7 +24,7 @@ const Home: NextPage<Props> = ({ aboutMe }) => {
         <BackGroundImage />
         <AboutMe aboutMe={aboutMe} />
         <Links />
-        <Products />
+        <Works articlesMetaInfo={articlesMetaInfo} />
       </main>
     </>
   );
@@ -36,6 +37,7 @@ export const getStaticProps: GetServerSideProps = async () => {
   // );
 
   const articlesMetaInfo = await fetchAllArticle();
+  console.log(JSON.stringify(articlesMetaInfo, null, 2));
 
   return { props: { aboutMe, articlesMetaInfo } };
 };

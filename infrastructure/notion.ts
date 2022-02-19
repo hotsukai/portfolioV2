@@ -65,7 +65,13 @@ export const parseNotionBlockChildrenResponseToRichText = (response: ListBlockCh
 
 export const fetchSinglePage = async (block_id: string): Promise<ListBlockChildrenResponse> => notionClient.blocks.children.list({ block_id })
 
-export const fetchAllFromDB = async (database_id: string): Promise<QueryDatabaseResponse> => notionClient.databases.query({ database_id })
+export const fetchAllFromDB = async (database_id: string): Promise<QueryDatabaseResponse> => notionClient.databases.query({
+  database_id, sorts: [
+    {
+      property: 'createdAt',
+      direction: "descending"
+    }]
+})
 
 type Row = {
   title: string

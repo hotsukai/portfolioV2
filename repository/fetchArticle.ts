@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
 import ky from 'ky';
 
-import { Dictionary } from 'app';
+import { ArticleMetaInfo, Dictionary } from 'app';
 import { ARTICLE_DB_ID, fetchAllFromDB, parseNotionQueryDBResponseToArrOfDict } from 'infrastructure/notion';
 
 const jsdom = new JSDOM();
@@ -25,13 +25,7 @@ const fetchArticleOGPInfo = async (url: string): Promise<Dictionary> => {
   return ogpInfos
 }
 
-type ArticleMetaInfo = {
-  url: string
-  title: string
-  image: string
-  type: string
-  site_name: string
-}
+
 export const fetchAllArticle = async () => {
   const res = await fetchAllFromDB(ARTICLE_DB_ID)
   const tasks = parseNotionQueryDBResponseToArrOfDict(res)
