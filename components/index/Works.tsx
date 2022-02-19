@@ -21,7 +21,7 @@ const Products: FC<Props> = ({ articlesMetaInfo }) => {
         </div>
         <div className="my-6">
           <H3 className="text-lg">Articles</H3>
-          <div className="overflow-x-scroll h-40 md:h-72 lg:h-80">
+          <div className="overflow-x-scroll h-44 md:h-60 lg:h-80">
             <div className="flex ">
               {articlesMetaInfo.map((article) => (
                 <a

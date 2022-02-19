@@ -19,7 +19,7 @@ export default notionClient
 /**
  * ListBlockChildrenResponseをRichTextにパースする
  */
-export const parseNotionBlockChildrenResponseToRichText = (response: ListBlockChildrenResponse): RichText[] => {
+const parseNotionBlockChildrenResponseToRichText = (response: ListBlockChildrenResponse): RichText[] => {
   const unsafeRichTexts: Array<RichText | undefined> = response.results.map((result, index) => {
     if (!('type' in result)) return
     const resultType = result.type
@@ -63,7 +63,7 @@ export const parseNotionBlockChildrenResponseToRichText = (response: ListBlockCh
   return unsafeRichTexts.filter((urt): urt is Exclude<typeof urt, undefined> => urt?.body !== undefined)
 }
 
-export const fetchSinglePage = async (block_id: string): Promise<ListBlockChildrenResponse> => notionClient.blocks.children.list({ block_id })
+const fetchSinglePage = async (block_id: string): Promise<ListBlockChildrenResponse> => notionClient.blocks.children.list({ block_id })
 
 export const fetchAllFromDB = async (database_id: string): Promise<QueryDatabaseResponse> => notionClient.databases.query({
   database_id, sorts: [
@@ -72,6 +72,11 @@ export const fetchAllFromDB = async (database_id: string): Promise<QueryDatabase
       direction: "descending"
     }]
 })
+
+export const getNotionPage = async (block_id: string) => {
+  const res = await fetchSinglePage(block_id)
+  return parseNotionBlockChildrenResponseToRichText(res)
+}
 
 type Row = {
   title: string
