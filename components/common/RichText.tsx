@@ -37,7 +37,7 @@ const RichLineElem: FC<RichLineElemProps> = ({ richLine }) => {
         <RichTextElem richTexts={richLine.body} />
       </li>
     );
-  return <br></br>;
+  return <br></br>; // FIXME 暫定処理で、セマンティックじゃないので治す
 };
 
 type RichTextElemProps = { richTexts: RichText[] };
