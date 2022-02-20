@@ -30,4 +30,5 @@ export type Product = {
   technologyStack: string[]
   link: string | null
   GitHub: string | null
+  description: string
 }
