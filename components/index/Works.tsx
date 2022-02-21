@@ -7,6 +7,7 @@ import SectionHeightScreen from "./Section1Page";
 
 import { ArticleMetaInfo, Product } from "app";
 import { H2, H3 } from "components/common/Headings";
+import { buildImagePath } from "repository/utils";
 
 type ProductsProps = {
   products: Product[];
@@ -21,7 +22,7 @@ const Products: VFC<ProductsProps> = ({ products }) => (
         <div className="relative z-0 w-40 h-40 bg-slate-800 border border-white md:w-56 md:h-56 lg:w-80 lg:h-72">
           {product.coverImage && (
             <Image
-              src={product.coverImage}
+              src={"/" + buildImagePath(product)}
               alt={product.title}
               layout="fill"
               objectFit="cover"
