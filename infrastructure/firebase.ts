@@ -10,7 +10,7 @@ if (getApps().length === 0) {
       ...credEscaped,
       privateKey: credEscaped.private_key.replace(/\\n/g, "\n"), // PEMの改行文字がJSONから文字列にするときにエスケープされてしまう。エスケープをここで解除する。
     }),
-    storageBucket: "portfolio-26a6a.appspot.com",
+    storageBucket: process.env.STORAGE_BUCKET as string
   });
 }
 
@@ -20,10 +20,10 @@ export const saveImage = async (filename: string, image: string | Buffer, conten
   const file = bucket.file(filename);
   try {
     await file.save(image);
-    await file.setMetadata({ contentType: contentType });
+    await file.setMetadata({ contentType });
+    await file.makePublic()
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
-  file.makePublic()
   return file.publicUrl()
 }

@@ -10,10 +10,10 @@ const fetchProducts = async (): Promise<Product[]> => {
   const res = await getRowsFromNotionDB(PRODUCT_DB_ID)
   const fetchNotionPageTasks = res.map(r => getNotionPage<Product>(r.id))
   const products = await Promise.all(fetchNotionPageTasks)
-  const saveImageTasks = products
+
+  const saveImageAndUpdateImageUrlTasks = products
     .filter((p: Product): p is ProductHasCoverImage => p.coverImage !== null)
     .map(async (product) => {
-
       const filename = extractFilenameFromUrl(product.coverImage as string)
       const extension = extractExtensionFromFilename(filename)
       const contentType = extension === 'jpg' ?
@@ -23,16 +23,12 @@ const fetchProducts = async (): Promise<Product[]> => {
 
       const imageBuffer = await fetchBlogAsString(product.coverImage, contentType)
       const imageUrl = await saveImage(filename, imageBuffer, contentType)
-      console.debug(imageUrl)
       return {
         ...product,
         coverImage: imageUrl
-      }
-    }
-
-    )
-  await Promise.all(saveImageTasks)
-  return products
+      } as Product
+    })
+  return Promise.all(saveImageAndUpdateImageUrlTasks)
 }
 
 export default fetchProducts
