@@ -1,13 +1,13 @@
 import type { NextPage, GetStaticProps } from "next";
 import Head from "next/head";
-import { useRef } from "react";
+import { createContext, FC, useState } from "react";
 
 import { ArticleMetaInfo, Product, RichLine } from "app";
 import AboutMe from "components/index/AboutMe";
 import BackGroundImage from "components/index/BackgroundImage";
 import Links from "components/index/Links";
+import PageNum from "components/index/PageNumber";
 import Works from "components/index/Works";
-import { useOnScreen } from "components/index/useOnScreen";
 import { SITE_NAME } from "const";
 import fetchAboutMe from "repository/aboutme";
 import { fetchAllArticle } from "repository/article";
@@ -19,33 +19,19 @@ type Props = {
   products: Product[];
 };
 const Home: NextPage<Props> = ({ aboutMe, articlesMetaInfo, products }) => {
-  const linksRef = useRef<HTMLDivElement>(null!);
-  const worksRef = useRef<HTMLDivElement>(null!);
-  const linksStatus = useOnScreen(linksRef);
-  const worksStatus = useOnScreen(worksRef);
   return (
-    <>
+    <IndexPageContextProvider>
       <Head>
         <title>{SITE_NAME}</title>
       </Head>
       <main className="overflow-y-scroll relative h-screen snap-y snap-mandatory">
         <BackGroundImage />
         <AboutMe aboutMe={aboutMe} />
-        <Links _ref={linksRef} />
-        <Works
-          _ref={worksRef}
-          articlesMetaInfo={articlesMetaInfo}
-          products={products}
-        />
-        <span className="fixed right-2 bottom-2 bg-white">
-          {linksStatus === "VISIBLE"
-            ? "2/3"
-            : worksStatus === "VISIBLE"
-            ? "3/3"
-            : ""}
-        </span>
+        <Links />
+        <Works articlesMetaInfo={articlesMetaInfo} products={products} />
+        <PageNum />
       </main>
-    </>
+    </IndexPageContextProvider>
   );
 };
 
@@ -62,3 +48,19 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 };
 
 export default Home;
+
+type IndexPageContextValue = {
+  pageNum: string;
+  setPageNum: (_: string) => void;
+};
+export const IndexPageContext = createContext<IndexPageContextValue>(
+  {} as IndexPageContextValue
+);
+const IndexPageContextProvider: FC = ({ children }) => {
+  const [pageNum, setPageNum] = useState("");
+  return (
+    <IndexPageContext.Provider value={{ pageNum, setPageNum }}>
+      {children}
+    </IndexPageContext.Provider>
+  );
+};

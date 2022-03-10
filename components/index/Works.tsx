@@ -1,12 +1,14 @@
 import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { FC, VFC } from "react";
+import { FC, useContext, useRef, VFC } from "react";
 
 import SectionHeightScreen from "./Section1Page";
+import { useOnScreen } from "./useOnScreen";
 
 import { ArticleMetaInfo, Product } from "app";
 import { H2, H3 } from "components/common/Headings";
+import { IndexPageContext } from "pages";
 
 type ProductsProps = {
   products: Product[];
@@ -76,16 +78,20 @@ const Products: VFC<ProductsProps> = ({ products }) => (
 type Props = {
   articlesMetaInfo: ArticleMetaInfo[];
   products: Product[];
-  _ref: React.RefObject<HTMLDivElement>;
 };
-const Works: FC<Props> = ({ articlesMetaInfo, products, _ref }) => {
+const Works: FC<Props> = ({ articlesMetaInfo, products }) => {
+  const { setPageNum } = useContext(IndexPageContext);
+  const ref = useRef<HTMLDivElement>(null!);
+  const status = useOnScreen(ref);
+  if (status === "VISIBLE") setPageNum("3/3");
+
   return (
     <SectionHeightScreen className="snap-center" pageNumber="3/3">
-      <div className="flex justify-between h-screen" ref={_ref}>
+      <div className="flex justify-between h-screen">
         <div className="ml-8 w-full bg-white" role="presentation" />
         <div className="p-10 w-11/12 bg-white">
           <H2 className="text-xl">Works</H2>
-          <div className="my-6">
+          <div className="my-6" ref={ref}>
             <H3 className="text-lg">Products</H3>
             <div className="overflow-x-scroll h-44 md:h-60 lg:h-80">
               <Products products={products} />

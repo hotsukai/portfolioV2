@@ -1,11 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import classNames from "classnames";
-import { FC } from "react";
+import { FC, useContext, useRef, VFC } from "react";
 
 import SectionHeightScreen from "./Section1Page";
 import styles from "./links.module.css";
+import { useOnScreen } from "./useOnScreen";
 
 import { H2, H3 } from "components/common/Headings";
+import { IndexPageContext } from "pages";
 
 type LinkWithLogoProps = {
   imageSrc: string;
@@ -34,14 +36,18 @@ const LinkWithLogo: FC<LinkWithLogoProps> = ({ imageSrc, title, href }) => (
   </a>
 );
 
-type Props = { _ref: React.RefObject<HTMLDivElement> };
-const Links: FC<Props> = ({ _ref }) => {
+const Links: VFC = () => {
+  const { setPageNum } = useContext(IndexPageContext);
+  const ref = useRef<HTMLDivElement>(null!);
+  const status = useOnScreen(ref);
+  if (status === "VISIBLE") setPageNum("2/3");
+
   return (
     <SectionHeightScreen className="snap-center" pageNumber="2/3">
-      <div className="flex justify-between h-screen" ref={_ref}>
+      <div className="flex justify-between h-screen">
         <div className="p-10 w-full bg-white">
           <H2>Links</H2>
-          <div className="my-6">
+          <div className="my-6" ref={ref}>
             <H3>Tech</H3>
             <LinkWithLogo
               title="Twitter"
