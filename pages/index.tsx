@@ -1,10 +1,12 @@
 import type { NextPage, GetStaticProps } from "next";
 import Head from "next/head";
+import { createContext, FC, useState } from "react";
 
 import { ArticleMetaInfo, Product, RichLine } from "app";
 import AboutMe from "components/index/AboutMe";
 import BackGroundImage from "components/index/BackgroundImage";
 import Links from "components/index/Links";
+import PageNum from "components/index/PageNumber";
 import Works from "components/index/Works";
 import { SITE_NAME } from "const";
 import fetchAboutMe from "repository/aboutme";
@@ -18,7 +20,7 @@ type Props = {
 };
 const Home: NextPage<Props> = ({ aboutMe, articlesMetaInfo, products }) => {
   return (
-    <>
+    <IndexPageContextProvider>
       <Head>
         <title>{SITE_NAME}</title>
       </Head>
@@ -27,8 +29,9 @@ const Home: NextPage<Props> = ({ aboutMe, articlesMetaInfo, products }) => {
         <AboutMe aboutMe={aboutMe} />
         <Links />
         <Works articlesMetaInfo={articlesMetaInfo} products={products} />
+        <PageNum />
       </main>
-    </>
+    </IndexPageContextProvider>
   );
 };
 
@@ -45,3 +48,19 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 };
 
 export default Home;
+
+type IndexPageContextValue = {
+  pageNum: string;
+  setPageNum: (_: string) => void;
+};
+export const IndexPageContext = createContext<IndexPageContextValue>(
+  {} as IndexPageContextValue
+);
+const IndexPageContextProvider: FC = ({ children }) => {
+  const [pageNum, setPageNum] = useState("");
+  return (
+    <IndexPageContext.Provider value={{ pageNum, setPageNum }}>
+      {children}
+    </IndexPageContext.Provider>
+  );
+};

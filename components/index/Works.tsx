@@ -1,12 +1,14 @@
 import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { FC, VFC } from "react";
+import { FC, useContext, useRef, VFC } from "react";
 
 import SectionHeightScreen from "./Section1Page";
+import { useOnScreen } from "./useOnScreen";
 
 import { ArticleMetaInfo, Product } from "app";
 import { H2, H3 } from "components/common/Headings";
+import { IndexPageContext } from "pages";
 
 type ProductCardsProps = {
   products: Product[];
@@ -112,6 +114,10 @@ type WorksProps = {
   products: Product[];
 };
 const Works: FC<WorksProps> = ({ articlesMetaInfo, products }) => {
+  const { setPageNum } = useContext(IndexPageContext);
+  const ref = useRef<HTMLDivElement>(null!);
+  const status = useOnScreen(ref);
+  if (status === "VISIBLE") setPageNum("3/3");
   return (
     <SectionHeightScreen className="flex justify-between snap-center">
       <div className="ml-8 w-full bg-white" role="presentation" />
