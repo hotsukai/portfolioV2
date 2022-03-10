@@ -31,7 +31,6 @@ type ProductCardProps = {
 };
 const ProductCard: VFC<ProductCardProps> = ({ product }) => (
   <div className="relative z-0 w-40 h-40 bg-slate-800 border border-white md:w-56 md:h-56 lg:w-80 lg:h-72">
-    <p>{product.coverImage}</p>
     {product.coverImage && (
       <Image
         src={product.coverImage}
