@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { FC } from "react";
+import { FC, Fragment } from "react";
 
 import SectionHeightScreen from "./Section1Page";
 import styles from "./scroll-bar.module.css";
@@ -28,7 +28,9 @@ const AboutMe: FC<Props> = ({ aboutMe }) => {
           </div>
           <div className="px-1 mb-20 md:px-4 lg:px-8">
             {aboutMe.map((am, i) => (
-              <RichLineElem richLine={am} key={i} />
+              <Fragment key={i}>
+                <RichLineElem richLine={am} key={i} />
+              </Fragment>
             ))}
           </div>
           <p

@@ -1,11 +1,13 @@
 import type { NextPage, GetStaticProps } from "next";
 import Head from "next/head";
+import { useRef } from "react";
 
 import { ArticleMetaInfo, Product, RichLine } from "app";
 import AboutMe from "components/index/AboutMe";
 import BackGroundImage from "components/index/BackgroundImage";
 import Links from "components/index/Links";
 import Works from "components/index/Works";
+import { useOnScreen } from "components/index/useOnScreen";
 import { SITE_NAME } from "const";
 import fetchAboutMe from "repository/aboutme";
 import { fetchAllArticle } from "repository/article";
@@ -17,6 +19,10 @@ type Props = {
   products: Product[];
 };
 const Home: NextPage<Props> = ({ aboutMe, articlesMetaInfo, products }) => {
+  const linksRef = useRef<HTMLDivElement>(null!);
+  const worksRef = useRef<HTMLDivElement>(null!);
+  const linksStatus = useOnScreen(linksRef);
+  const worksStatus = useOnScreen(worksRef);
   return (
     <>
       <Head>
@@ -25,8 +31,19 @@ const Home: NextPage<Props> = ({ aboutMe, articlesMetaInfo, products }) => {
       <main className="overflow-y-scroll relative h-screen snap-y snap-mandatory">
         <BackGroundImage />
         <AboutMe aboutMe={aboutMe} />
-        <Links />
-        <Works articlesMetaInfo={articlesMetaInfo} products={products} />
+        <Links _ref={linksRef} />
+        <Works
+          _ref={worksRef}
+          articlesMetaInfo={articlesMetaInfo}
+          products={products}
+        />
+        <span className="fixed right-2 bottom-2 bg-white">
+          {linksStatus === "VISIBLE"
+            ? "2/3"
+            : worksStatus === "VISIBLE"
+            ? "3/3"
+            : ""}
+        </span>
       </main>
     </>
   );

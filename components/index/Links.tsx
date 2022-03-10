@@ -34,58 +34,60 @@ const LinkWithLogo: FC<LinkWithLogoProps> = ({ imageSrc, title, href }) => (
   </a>
 );
 
-type Props = {};
-const Links: FC<Props> = ({}) => {
+type Props = { _ref: React.RefObject<HTMLDivElement> };
+const Links: FC<Props> = ({ _ref }) => {
   return (
-    <SectionHeightScreen className="flex justify-between snap-center">
-      <div className="p-10 w-full bg-white">
-        <H2>Links</H2>
-        <div className="my-6">
-          <H3>Tech</H3>
-          <LinkWithLogo
-            title="Twitter"
-            href="https://twitter.com/hotsukai"
-            imageSrc="/images/twitter.png"
-          />
-          <LinkWithLogo
-            title="GitHub"
-            href="https://github.com/hotsukai"
-            imageSrc="/images/GitHub.png"
-          />
-          <LinkWithLogo
-            title="Zenn"
-            href="https://zenn.dev/hotsukai"
-            imageSrc="https://unpkg.com/simple-icons@6.10.0/icons/zenn.svg"
-          />
-          <LinkWithLogo
-            title="Qiita"
-            href="https://qiita.com/hotsukai"
-            imageSrc="https://unpkg.com/simple-icons@6.10.0/icons/qiita.svg"
-          />
+    <SectionHeightScreen className="snap-center" pageNumber="2/3">
+      <div className="flex justify-between h-screen" ref={_ref}>
+        <div className="p-10 w-full bg-white">
+          <H2>Links</H2>
+          <div className="my-6">
+            <H3>Tech</H3>
+            <LinkWithLogo
+              title="Twitter"
+              href="https://twitter.com/hotsukai"
+              imageSrc="/images/twitter.png"
+            />
+            <LinkWithLogo
+              title="GitHub"
+              href="https://github.com/hotsukai"
+              imageSrc="/images/GitHub.png"
+            />
+            <LinkWithLogo
+              title="Zenn"
+              href="https://zenn.dev/hotsukai"
+              imageSrc="https://unpkg.com/simple-icons@6.10.0/icons/zenn.svg"
+            />
+            <LinkWithLogo
+              title="Qiita"
+              href="https://qiita.com/hotsukai"
+              imageSrc="https://unpkg.com/simple-icons@6.10.0/icons/qiita.svg"
+            />
+          </div>
+          <div className="my-6">
+            <H3>Photos</H3>
+            <LinkWithLogo
+              title="Instagram"
+              href="https://www.instagram.com/hotsukai_pic/"
+              imageSrc="/images/instagram.png"
+            />
+          </div>
+          <div className="my-6">
+            <h3 className="mb-2 text-lg">Career</h3>
+            <LinkWithLogo
+              title="Wantedly"
+              href="https://www.wantedly.com/id/hotsukai"
+              imageSrc="/images/Wantedly.png"
+            />
+            <LinkWithLogo
+              href="mailto:kaihotsu.kotaro.c@gmail.com"
+              title="Mail"
+              imageSrc="/images/mail.png"
+            />
+          </div>
         </div>
-        <div className="my-6">
-          <H3>Photos</H3>
-          <LinkWithLogo
-            title="Instagram"
-            href="https://www.instagram.com/hotsukai_pic/"
-            imageSrc="/images/instagram.png"
-          />
-        </div>
-        <div className="my-6">
-          <h3 className="mb-2 text-lg">Career</h3>
-          <LinkWithLogo
-            title="Wantedly"
-            href="https://www.wantedly.com/id/hotsukai"
-            imageSrc="/images/Wantedly.png"
-          />
-          <LinkWithLogo
-            href="mailto:kaihotsu.kotaro.c@gmail.com"
-            title="Mail"
-            imageSrc="/images/mail.png"
-          />
-        </div>
+        <div className="ml-8 w-5/12 bg-white" role="presentation" />
       </div>
-      <div className="ml-8 w-5/12 bg-white" role="presentation" />
     </SectionHeightScreen>
   );
 };
