@@ -32,3 +32,5 @@ export type Product = {
   GitHub: string | null
   description: string
 }
+
+export type ContentType = 'image/jpeg' | 'image/png' // FIXME
