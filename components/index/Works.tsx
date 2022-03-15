@@ -123,13 +123,15 @@ const Works: FC<WorksProps> = ({ articlesMetaInfo, products }) => {
       <div className="ml-8 w-full bg-white" role="presentation" />
       <div className="p-10 w-11/12 bg-white">
         <H2 className="text-xl">Works</H2>
-        <div className="my-6">
-          <H3 className="text-lg">Products</H3>
-          <ProductCards products={products} />
-        </div>
-        <div className="my-6">
-          <H3 className="text-lg">Articles</H3>
-          <ArticleCards articlesMetaInfo={articlesMetaInfo} />
+        <div ref={ref}>
+          <div className="my-6">
+            <H3 className="text-lg">Products</H3>
+            <ProductCards products={products} />
+          </div>
+          <div className="my-6">
+            <H3 className="text-lg">Articles</H3>
+            <ArticleCards articlesMetaInfo={articlesMetaInfo} />
+          </div>
         </div>
       </div>
     </SectionHeightScreen>
