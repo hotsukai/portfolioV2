@@ -36,7 +36,7 @@ const LinkWithLogo: FC<LinkWithLogoProps> = ({ imageSrc, title, href }) => (
   </a>
 );
 const LinksInner: VFC = memo(() => (
-  <div className="flex justify-between h-screen">
+  <div className="flex justify-between h-screen-mobile">
     <div className="p-10 w-full bg-white">
       <H2>Links</H2>
       <div className="my-6">
