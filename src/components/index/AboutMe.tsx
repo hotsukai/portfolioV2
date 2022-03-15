@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { FC, Fragment } from "react";
+import { FC } from "react";
 
 import SectionHeightScreen from "./Section1Page";
 import styles from "./scroll-bar.module.css";
@@ -7,7 +7,7 @@ import styles from "./scroll-bar.module.css";
 import { RichLine } from "app";
 import Footer from "components/common/Footer";
 import Header from "components/common/Header";
-import RichLineElem from "components/common/RichText";
+import RichLinesElem from "components/common/RichText";
 
 type Props = {
   aboutMe: RichLine[];
@@ -27,11 +27,7 @@ const AboutMe: FC<Props> = ({ aboutMe }) => {
             </h1>
           </div>
           <div className="px-1 mb-20 md:px-4 lg:px-8">
-            {aboutMe.map((am, i) => (
-              <Fragment key={i}>
-                <RichLineElem richLine={am} key={i} />
-              </Fragment>
-            ))}
+            <RichLinesElem lines={aboutMe} />
           </div>
           <p
             className={classNames(
