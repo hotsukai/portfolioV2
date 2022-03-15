@@ -1,7 +1,7 @@
 import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { FC, useContext, useRef, VFC } from "react";
+import { FC, memo, useContext, useRef, VFC } from "react";
 
 import SectionHeightScreen from "./Section1Page";
 import { useOnScreen } from "./useOnScreen";
@@ -113,27 +113,38 @@ type WorksProps = {
   articlesMetaInfo: ArticleMetaInfo[];
   products: Product[];
 };
+const WorksInner = memo<WorksProps>(({ products, articlesMetaInfo }) => (
+  <>
+    <div className="ml-8 w-full bg-white" role="presentation" />
+    <div className="p-10 w-11/12 bg-white">
+      <H2 className="text-xl">Works</H2>
+      <div>
+        <div className="my-6">
+          <H3 className="text-lg">Products</H3>
+          <ProductCards products={products} />
+        </div>
+        <div className="my-6">
+          <H3 className="text-lg">Articles</H3>
+          <ArticleCards articlesMetaInfo={articlesMetaInfo} />
+        </div>
+      </div>
+    </div>
+  </>
+));
+WorksInner.displayName = "WorksInner";
+
 const Works: FC<WorksProps> = ({ articlesMetaInfo, products }) => {
   const { setPageNum } = useContext(IndexPageContext);
   const ref = useRef<HTMLDivElement>(null!);
   const status = useOnScreen(ref);
   if (status === "VISIBLE") setPageNum("3/3");
+
   return (
-    <SectionHeightScreen className="flex justify-between snap-center">
-      <div className="ml-8 w-full bg-white" role="presentation" />
-      <div className="p-10 w-11/12 bg-white">
-        <H2 className="text-xl">Works</H2>
-        <div ref={ref}>
-          <div className="my-6">
-            <H3 className="text-lg">Products</H3>
-            <ProductCards products={products} />
-          </div>
-          <div className="my-6">
-            <H3 className="text-lg">Articles</H3>
-            <ArticleCards articlesMetaInfo={articlesMetaInfo} />
-          </div>
-        </div>
-      </div>
+    <SectionHeightScreen
+      className="flex justify-between snap-center"
+      _ref={ref}
+    >
+      <WorksInner products={products} articlesMetaInfo={articlesMetaInfo} />
     </SectionHeightScreen>
   );
 };
