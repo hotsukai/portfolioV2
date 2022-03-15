@@ -14,6 +14,7 @@ module.exports = {
         128: "32rem",
         256: "64rem",
       },
+      spacing: { "screen-mobile": "calc(var(--vh) * 100)" },
     },
   },
   variants: {
