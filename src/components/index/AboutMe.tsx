@@ -19,7 +19,7 @@ const AboutMe: FC<Props> = ({ aboutMe }) => {
       <div className="flex relative justify-between text-white">
         <div className="w-4 bg-white" role="presentation" />
         <div className="z-0 grow">
-          <div className="flex justify-center content-center items-center h-screen-mobile">
+          <div className="flex justify-center content-center items-center h-screen">
             <h1 className="text-lg text-white">
               開發 功太郎
               <br />
